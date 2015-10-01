@@ -1,14 +1,15 @@
 import scala.annotation.tailrec
+import scala.util.Random
 
-object P01 {
+object ListProblems {
 
   /**
-   * Find the last element of a list.
+   * P01 . Find the last element of a list.
    *
-   * scala> P01.last(List(1, 1, 2, 3, 5, 8))
+   * scala> ListProblems.last(List(1, 1, 2, 3, 5, 8))
    * res0: Int = 8
    *
-   * scala> P01.last(List("foo"))
+   * scala> ListProblems.last(List("foo"))
    * res0: String = foo
    *
    */
@@ -18,18 +19,15 @@ object P01 {
       case h :: t     => last(t)
       case _          => throw new NoSuchElementException
     }
-}
 
-
-object P02 {
 
   /**
-   * Find the last but one element of a list.
+   * P02 . Find the last but one element of a list.
    *
-   * scala> P02.penultimate(List(1, 1, 2, 3, 5, 8))
+   * scala> ListProblems.penultimate(List(1, 1, 2, 3, 5, 8))
    * res0: Int = 5
    *
-   * scala> P02.penultimate(List('a', 'b'))
+   * scala> ListProblems.penultimate(List('a', 'b'))
    * res0: Char = a
    *
    */
@@ -40,48 +38,33 @@ object P02 {
       case _              => throw new NoSuchElementException
     }
 
-}
-
-
-object P03 {
-
   /**
-   * Find the Kth element of a list
+   * P03 . Find the Kth element of a list
    *
-   * scala> P03.nth(2, List(1, 1, 2, 3, 5, 8))
+   * scala> ListProblems.nth(2, List(1, 1, 2, 3, 5, 8))
    * res0: Int = 2
    *
-   * scala> P03.nth(4, List(1, 1, 2, 3, 5, 8))
+   * scala> ListProblems.nth(4, List(1, 1, 2, 3, 5, 8))
    * res0: Int = 5
    *
    */
-  def nth[A](i: Int, ls: List[A]):A = {
-
+  def nth[A](i: Int, ls: List[A]):A =
     ( i, ls ) match {
       case (0, h::_)        => h
       case (n, _ :: tail )  => nth(n-1, tail)
       case (_, Nil)         => throw new NoSuchElementException
     }
-//
-//    ls.drop(i)
-//      .headOption
-//      .getOrElse(throw new NoSuchElementException)
-  }
-
-}
-
-object P04 {
 
   /**
-   * Find the number of ls of a list.
+   * P04 . Find the number of ls of a list.
    *
-   * scala> P04.length(Nil)
+   * scala> ListProblems.length(Nil)
    * res0: Int = 0
    *
-   * scala> P04.length(List(1))
+   * scala> ListProblems.length(List(1))
    * res0: Int = 1
    *
-   * scala> P04.length(List(1,2,3,4))
+   * scala> ListProblems.length(List(1,2,3,4))
    * res0: Int = 4
    *
    */
@@ -91,20 +74,17 @@ object P04 {
       case h :: Nil   => 1
       case h :: tail  => 1 + length(tail)
     }
-}
-
-object P05 {
 
   /**
-   * Reverse a list
+   * P05 . Reverse a list
    *
-   * scala> P05.reverse(List())
+   * scala> ListProblems.reverse(List())
    * res0: List[Nothing] = List()
    *
-   * scala> P05.reverse(List(8))
+   * scala> ListProblems.reverse(List(8))
    * res0: List[Int] = List(8)
    *
-   * scala> P05.reverse(List(1, 1, 2, 3, 5, 8))
+   * scala> ListProblems.reverse(List(1, 1, 2, 3, 5, 8))
    * res0: List[Int] = List(8, 5, 3, 2, 1, 1)
    *
    */
@@ -114,31 +94,24 @@ object P05 {
       case h :: Nil   => List(h)
       case h :: tail  => reverse(tail) :+ h
     }
-}
-
-object P06 {
 
   /**
-   * Find out whether a list is a palindrome
+   * P06 . Find out whether a list is a palindrome
    *
-   * scala> P06.isPalindrome(List(1, 2, 3, 3, 1))
+   * scala> ListProblems.isPalindrome(List(1, 2, 3, 3, 1))
    * res0: Boolean = false
    *
-   * scala> P06.isPalindrome(List(1, 2, 3, 2, 1))
+   * scala> ListProblems.isPalindrome(List(1, 2, 3, 2, 1))
    * res0: Boolean = true
    *
    */
   def isPalindrome[A](ls: List[A]):Boolean =
-    P05.reverse(ls) == ls
-
-}
-
-object P07 {
+    ListProblems.reverse(ls) == ls
 
   /**
-   * Flatten a nested list structure
+   * P07 . Flatten a nested list structure
    *
-   * scala> P07.flatten(List(List(1, 1), 2, List(3, List(5, 8))))
+   * scala> ListProblems.flatten(List(List(1, 1), 2, List(3, List(5, 8))))
    * res0: List[Any] = List(1, 1, 2, 3, 5, 8)
    *
    */
@@ -147,16 +120,13 @@ object P07 {
       case m: List[_] => flatten(m)
       case e          => List(e)
     }
-}
-
-object P08 {
 
   /**
-   * Eliminate consecutive duplicates of list elements
+   * P08 . Eliminate consecutive duplicates of list elements
    * If a list contains repeated elements they should be replaced with a single copy of the element.
    * The order of the elements should not be changed.
    *
-   * scala> P08.compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * scala> ListProblems.compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
    * res0: List[Symbol] = List('a, 'b, 'c, 'a, 'd, 'e)
    *
    */
@@ -166,15 +136,13 @@ object P08 {
       case h :: ys :: tail if h == ys => compress( h :: tail )
       case h :: ys :: tail            => h :: compress( ys :: tail )
     }
-}
 
-object P09 {
 
   /**
-   * Pack consecutive duplicates of list elements into sublists.
+   * P09 . Pack consecutive duplicates of list elements into sublists.
    * If a list contains repeated elements they should be placed in separate sublists.
    *
-   * scala> P09.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * scala> ListProblems.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
    * res0: List[List[Symbol]] = List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
    *
    */
@@ -186,51 +154,42 @@ object P09 {
         case (packed, next) => packed :: pack(next)
       }
 
-}
-
-object P10 {
 
   /**
-   * Run-length encoding of a list.
+   * P10 . Run-length encoding of a list.
    * Use the result of problem P09 to implement the so-called run-length encoding data compression method.
    * Consecutive duplicates of elements are encoded as tuples (N, E) where N is the number of duplicates of the element E.
    *
-   * scala> P10.encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * scala> ListProblems.encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
    * res0: List[(Int, Symbol)] = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
    *
    */
   def encode[A](ls: List[A]):List[(Int, A)] =
-    P09.pack(ls).map( s => (P04.length(s), s.head) )
+    ListProblems.pack(ls).map( s => (ListProblems.length(s), s.head) )
 
-}
-
-object P11 {
 
   /**
-   * Modified run-length encoding.
+   * P11 . Modified run-length encoding.
    * Modify the result of problem P10 in such a way that if an element has no duplicates it is simply copied into the result list.
    * Only elements with duplicates are transferred as (N, E) terms.
    *
-   * scala> P11.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * scala> ListProblems.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
    * res0: List[Any] = List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
    *
    */
   def encodeModified[A](ls: List[A]):List[Any] =
-    P10.encode(ls).map{ s =>
+    ListProblems.encode(ls).map{ s =>
       if(s._1 == 1) s._2
       else          s
     }
 
-}
-
-object P12 {
 
   /**
-   * Decode a run-length encoded list.
+   * P12 . Decode a run-length encoded list.
    * Given a run-length code list generated as specified in problem P10,
    * construct its uncompressed version.
    *
-   * scala> P12.decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
+   * scala> ListProblems.decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
    * res0: List[Symbol] = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
    *
    */
@@ -240,16 +199,13 @@ object P12 {
       case (n, e) :: tail   => List.fill(n)(e) ++ decode(tail)
     }
 
-}
-
-object P13 {
 
   /**
-   * Run-length encoding of a list (direct solution).
+   * P13 . Run-length encoding of a list (direct solution).
    * Implement the so-called run-length encoding data compression method directly.
    * I.e. don't use other methods you've written (like P09's pack); do all the work directly.
    *
-   * scala> P13.encodeDirect(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * scala> ListProblems.encodeDirect(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
    * res0: List[(Int, Symbol)] = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
    *
    */
@@ -259,14 +215,12 @@ object P13 {
       val (packed, next) = ls.span(_ == ls.head)
       (packed.length, packed.head) :: encodeDirect(next)
     }
-}
 
-object P14 {
 
   /**
-   * Duplicate the elements of a list.
+   * P14 . Duplicate the elements of a list.
    *
-   * scala> P14.duplicate(List('a, 'b, 'c, 'c, 'd))
+   * scala> ListProblems.duplicate(List('a, 'b, 'c, 'c, 'd))
    * res0: List[Symbol] = List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd)
    *
    */
@@ -275,14 +229,12 @@ object P14 {
       case Nil => Nil
       case h :: tail => h :: h :: duplicate(tail)
     }
-}
 
-object P15 {
 
   /**
-   * Duplicate the elements of a list a given number of times.
+   * P15 . Duplicate the elements of a list a given number of times.
    *
-   * scala> P15.duplicateN(3, List('a, 'b, 'c, 'c, 'd))
+   * scala> ListProblems.duplicateN(3, List('a, 'b, 'c, 'c, 'd))
    * res0: List[Symbol] = List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd)
    *
    */
@@ -292,66 +244,124 @@ object P15 {
       case h :: tail  => List.fill(n)(h) ++ duplicateN(n, tail)
     }
 
-}
-
-object P16 {
-
   /**
-   * Drop every Nth element from a list.
+   * P16 . Drop every Nth element from a list.
    *
-   * scala> P16.drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+   * scala> ListProblems.drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
    * res0: List[Symbol] = List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k)
    *
    */
   def drop[A](n: Int, ls: List[A]):List[A] =
     ls.zipWithIndex.filter{ s => ((s._2 + 1) % n ) != 0 }.map( _._1 )
 
-}
-
-object P17 {
-
   /**
-   * Split a list into two parts.
+   * P17 . Split a list into two parts.
    * The length of the first part is given. Use a Tuple for your result.
    *
-   * scala> P17.split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+   * scala> ListProblems.split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
    * res0: (List[Symbol], List[Symbol]) = (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
    *
    */
   def split[A](n: Int, ls: List[A]):(List[A], List[A]) =
     (ls.take(n), ls.drop(n))
 
-}
-
-object P18 {
-
   /**
-   * Extract a slice from a list.
+   * P18 . Extract a slice from a list.
    * Given two indices, I and K, the slice is the list containing the elements from and including the Ith element up to
    * but not including the Kth element of the original list. Start counting the elements with 0.
    *
-   * scala> P18.slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+   * scala> ListProblems.slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
    * res0: List[Symbol] = List('d, 'e, 'f, 'g)
    *
    */
   def slice[A](i: Int, k: Int, ls: List[A]): List[A] =
     ls drop i take( k - i )
+
+  /**
+   * P19 . Rotate a list N places to the left.
+   *
+   * scala> ListProblems.rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+   * res0: List[Symbol] = List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
+   *
+   * scala> ListProblems.rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+   * res1: List[Symbol] = List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
+   *
+   */
+  def rotate[A](n: Int, ls: List[A]):List[A] = {
+    val nBounded = if( ls.isEmpty ) 0 else n % ls.length
+    if(nBounded < 0) rotate( nBounded + ls.length, ls)
+    else (ls drop nBounded) ::: (ls take nBounded)
+  }
+
+  /**
+   * P20 . Remove the Kth element from a list.
+   * Return the list and the removed element in a Tuple. Elements are numbered from 0.
+   *
+   * scala> ListProblems.removeAt(1, List('a, 'b, 'c, 'd))
+   * res0: (List[Symbol], Symbol) = (List('a, 'c, 'd),'b)
+   *
+   */
+  def removeAt[A](n: Int, ls: List[A]):(List[A], A) =
+    ((ls take n) ++ (ls drop (n+1) ), ls(n))
+
+  /**
+   * P21 . Insert an element at a given position into a list.
+   *
+   * scala> ListProblems.insertAt('new, 1, List('a, 'b, 'c, 'd))
+   * res0: List[Symbol] = List('a, 'new, 'b, 'c, 'd)
+   *
+   */
+  def insertAt[A](e: A, n: Int, ls: List[A]):List[A] =
+    ls.take(n) ::: e :: ls.drop(n)
+
+  /**
+   * P22 . Create a list containing all integers within a given range.
+   *
+   * scala> ListProblems.range(4, 9)
+   * res0: List[Int] = List(4, 5, 6, 7, 8, 9)
+   *
+   */
+  def range(a: Int, b: Int):List[Int] =
+    if(b == a)  List(a)
+    else        a :: range(a+1, b)
+
+  /**
+   * P23 . Extract a given number of randomly selected elements from a list.
+   *
+   * scala> ListProblems.randomSelect(3, List('a, 'b, 'c, 'd, 'f, 'g, 'h)).length
+   * res0: Int = 3
+   *
+   * scala> ListProblems.randomSelect(6, List('a, 'b, 'c, 'd, 'f, 'g, 'h)).length
+   * res0: Int = 6
+   *
+   */
+  def randomSelect[A](n: Int, ls: List[A]):List[A] =
+    if( n <= 0 ) Nil
+    else {
+      val ( res, el )= removeAt(Random.nextInt(ls.length), ls)
+      el :: randomSelect(n-1, res)
+    }
+
+  /**
+   * P24 . Lotto: Draw N different random numbers from the set 1..M.
+   *
+   * scala> ListProblems.lotto(6, 49).length
+   * res0: Int = 6
+   *
+   */
+  def lotto(a: Int, b: Int):List[Int] =
+    randomSelect(6, range(a, b))
+
+  /**
+   * P25 . Generate a random permutation of the elements of a list.
+   * Hint: Use the solution of problem P23.
+   *
+   * scala> ListProblems.randomPermute(List('a, 'b, 'c, 'd, 'e, 'f)).length
+   * res0: Int = 6
+   *
+   */
+  def randomPermute[A](ls: List[A]):List[A] =
+    randomSelect(ls.length, ls)
+
 }
 
-//object P19 {
-//
-//  /**
-//   * Rotate a list N places to the left.
-//   *
-//   * scala> P19.rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-//   * res0: List[Symbol] = List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
-//   *
-//   * scala> P19.rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-//   * res1: List[Symbol] = List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
-//   *
-//   */
-//  def rotate[A](n: Int, ls: List[A]):List[A] =
-//    ???
-//
-//
-//}
