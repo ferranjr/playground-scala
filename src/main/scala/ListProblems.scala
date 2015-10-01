@@ -1,4 +1,3 @@
-import scala.annotation.tailrec
 import scala.util.Random
 
 object ListProblems {
@@ -19,7 +18,6 @@ object ListProblems {
       case h :: t     => last(t)
       case _          => throw new NoSuchElementException
     }
-
 
   /**
    * P02 . Find the last but one element of a list.
@@ -137,7 +135,6 @@ object ListProblems {
       case h :: ys :: tail            => h :: compress( ys :: tail )
     }
 
-
   /**
    * P09 . Pack consecutive duplicates of list elements into sublists.
    * If a list contains repeated elements they should be placed in separate sublists.
@@ -153,7 +150,6 @@ object ListProblems {
         case (packed, Nil) => List(packed)
         case (packed, next) => packed :: pack(next)
       }
-
 
   /**
    * P10 . Run-length encoding of a list.
@@ -183,7 +179,6 @@ object ListProblems {
       else          s
     }
 
-
   /**
    * P12 . Decode a run-length encoded list.
    * Given a run-length code list generated as specified in problem P10,
@@ -198,7 +193,6 @@ object ListProblems {
       case Nil              => Nil
       case (n, e) :: tail   => List.fill(n)(e) ++ decode(tail)
     }
-
 
   /**
    * P13 . Run-length encoding of a list (direct solution).
@@ -216,7 +210,6 @@ object ListProblems {
       (packed.length, packed.head) :: encodeDirect(next)
     }
 
-
   /**
    * P14 . Duplicate the elements of a list.
    *
@@ -229,7 +222,6 @@ object ListProblems {
       case Nil => Nil
       case h :: tail => h :: h :: duplicate(tail)
     }
-
 
   /**
    * P15 . Duplicate the elements of a list a given number of times.
@@ -244,7 +236,7 @@ object ListProblems {
       case h :: tail  => List.fill(n)(h) ++ duplicateN(n, tail)
     }
 
-  /**
+ /**
    * P16 . Drop every Nth element from a list.
    *
    * scala> ListProblems.drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
@@ -364,4 +356,3 @@ object ListProblems {
     randomSelect(ls.length, ls)
 
 }
-
