@@ -355,4 +355,67 @@ object ListProblems {
   def randomPermute[A](ls: List[A]):List[A] =
     randomSelect(ls.length, ls)
 
+  /**
+   * P26 . Generate the combinations of K distinct objects chosen from the N elements of a list.
+   * In how many ways can a committee of 3 be chosen from a group of 12 people? We all know that
+   * there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficient).
+   *
+   * For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
+   *
+   * scala> ListProblems.combinations(3, List('a, 'b, 'c, 'd, 'e, 'f)).length
+   * res0: Int = 20
+   *
+   */
+  def combinations[A](k: Int, ls: List[A]):List[List[A]] = {
+
+    if(k == 0)   List(Nil)
+    else flatMapSublists(ls){ sl =>
+      combinations(k - 1, sl.tail ) map { sl.head :: _ }
+    }
+  }
+
+  // Helper for P26
+  def flatMapSublists[A,B](ls: List[A])(f: (List[A]) => List[B]): List[B] =
+    ls match {
+      case Nil => Nil
+      case sublist@(_ :: tail) => f(sublist) ::: flatMapSublists(tail)(f)
+    }
+
 }
+
+
+/*
+
+P27 (**) Group the elements of a set into disjoint subsets.
+a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a function that generates all the possibilities.
+Example:
+
+scala> group3(List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
+res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David, Evi), List(Flip, Gary, Hugo, Ida)), ...
+b) Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.
+
+Example:
+
+scala> group(List(2, 2, 5), List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
+res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David), List(Evi, Flip, Gary, Hugo, Ida)), ...
+Note that we do not want permutations of the group members; i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((Carla, David), (Aldo, Beat), ...).
+
+You may find more about this combinatorial problem in a good book on discrete mathematics under the term "multinomial coefficients".
+
+P28 (**) Sorting a list of lists according to length of sublists.
+a) We suppose that a list contains elements that are lists themselves. The objective is to sort the elements of the list according to their length. E.g. short lists first, longer lists later, or vice versa.
+Example:
+
+scala> lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
+res0: List[List[Symbol]] = List(List('o), List('d, 'e), List('d, 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
+b) Again, we suppose that a list contains elements that are lists themselves. But this time the objective is to sort the elements according to their length frequency; i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
+
+Example:
+
+scala> lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
+res1: List[List[Symbol]] = List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
+Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. This is the most frequent length.
+
+
+
+ */
